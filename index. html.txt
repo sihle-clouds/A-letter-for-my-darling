@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Siphokazi 💕✨</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pink-pastel': '#FFD1DC',
+                        'pink-soft': '#FFB6C1',
+                        'pink-vibrant': '#FF69B4',
+                        'purple-pastel': '#E6E6FA',
+                        'purple-soft': '#D8BFD8',
+                        'purple-deep': '#8A2BE2',
+                        'purple-lavender': '#9370DB',
+                    },
+                    fontFamily: {
+                        'handwriting': ['Caveat', 'cursive'],
+                        'cute': ['Fredoka', 'sans-serif'],
+                        'body': ['Quicksand', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #f04489 0%, #e3c5d7 50%, #fc0390 100%);
+            overflow-x: hidden;
+        }
+
+        /* Floating Hearts Animation */
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp 8s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.5) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Envelope Styles */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+        
+        .envelope {
+            position: relative;
+            background-color: #ec98c6;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            box-shadow: 0 15px 35px rgba(231, 43, 121, 0.15);
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 170px solid #fa86d5;
+            border-right: 170px solid #e95fcb;
+            border-bottom: 120px solid #f46cc2;
+            border-top: 120px solid transparent;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        @media (min-width: 640px) {
+            .envelope::before {
+                border-left: 250px solid #eebefa;
+                border-right: 250px solid #eebefa;
+                border-bottom: 160px solid #e5a9f6;
+                border-top: 160px solid transparent;
+            }
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 170px solid transparent;
+            border-right: 170px solid transparent;
+            border-top: 130px solid #d880f0;
+            transform-origin: top;
+            transition: transform 0.6s ease 0.2s, z-index 0.2s;
+            z-index: 4;
+        }
+
+        @media (min-width: 640px) {
+            .envelope-flap {
+                border-left: 250px solid transparent;
+                border-right: 250px solid transparent;
+                border-top: 170px solid #d880f0;
+            }
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .letter-content {
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .envelope.open .letter-content {
+            transform: translateY(-160px);
+            z-index: 5;
+        }
+
+        /* Polaroid Frames */
+        .polaroid {
+            background: rgb(248, 5, 175);
+            padding: 12px 12px 24px 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .polaroid:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            box-shadow: 0 20px 35px rgba(250, 4, 62, 0.25);
+            z-index: 20;
+        }
+
+        /* Tape Effect */
+        .tape-top {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 24px;
+            background-color: rgba(243, 9, 188, 0.65);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            backdrop-filter: blur(2px);
+            border: 1px dashed rgba(236, 6, 106, 0.5);
+            z-index: 10;
+        }
+
+        /* Pulsing Glow */
+        .pulse-glow {
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 30px rgba(138, 43, 226, 0.7);
+            }
+        }
+
+        /* Shimmer Effect */
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #db05fc;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f472b6;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #db2777;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Floating Background Particles -->
+    <div id="hearts-container"></div>
+
+    <!-- Music Player Banner -->
+    <div class="fixed top-4 right-4 z-50">
+        <button id="musicToggle" class="bg-white/80 backdrop-blur-md px-4 py-2.5 rounded-full shadow-lg border border-pink-200 text-pink-600 font-cute text-sm flex items-center space-x-2 hover:bg-pink-50 transition-all duration-300">
+            <i id="musicIcon" class="fas fa-music animate-bounce text-pink-500"></i>
+            <span id="musicText">Play Music ✨</span>
+        </button>
+        <!-- Audio element with ambient cute birthday melody -->
+        <audio id="bgMusic" loop preload="auto">
+            <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8b81d713a.mp3?filename=happy-birthday-lounge-10522.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="max-w-5xl mx-auto px-4 py-8 relative z-10">
+
+        <!-- HERO HEADER -->
+        <header class="text-center my-10 relative">
+            <div class="inline-block bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide uppercase mb-4 border border-pink-200 shadow-sm">
+                💖 Celebrating MY MUNTUZA! 💖
+            </div>
+            
+            <h1 class="font-cute text-4xl sm:text-6xl md:text-7xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent drop-shadow-sm mb-4 leading-tight">
+                Happy Birthday, Siphokazi! 🎉✨
+            </h1>
+
+            <p class="font-handwriting text-2xl sm:text-3xl text-purple-700 max-w-xl mx-auto mb-8">
+                To one of the best girls who brings so much laughs, and pure joy into my life! 🌸💅👑
+            </p>
+
+            <!-- Interactive Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button onclick="triggerConfetti()" class="pulse-glow bg-gradient-to-r from-pink-500 to-purple-600 text-white font-cute text-lg px-8 py-3.5 rounded-full shadow-lg hover:opacity-90 transform hover:-translate-y-1 transition duration-300 flex items-center gap-2">
+                    <i class="fas fa-gift"></i> Celebrate & Throw Confetti! 🎉
+                </button>
+                <a href="#letter-section" class="bg-white/80 backdrop-blur-sm text-purple-700 font-cute text-lg px-6 py-3.5 rounded-full shadow-md hover:bg-white border border-purple-200 transition duration-300 flex items-center gap-2">
+                    <i class="fas fa-envelope-open-text"></i> Read Letter 💌
+                </a>
+            </div>
+
+            <!-- Cute Decorative Badges -->
+            <div class="flex justify-center gap-3 text-2xl text-pink-400">
+                <span class="animate-pulse">✨</span>
+                <span class="animate-bounce" style="animation-delay: 0.1s">💖</span>
+                <span class="animate-pulse" style="animation-delay: 0.2s">🌸</span>
+                <span class="animate-bounce" style="animation-delay: 0.3s">🎀</span>
+                <span class="animate-pulse" style="animation-delay: 0.4s">👑</span>
+            </div>
+        </header>
+
+        <!-- INTERACTIVE ENVELOPE / BIRTHDAY LETTER SECTION -->
+        <section id="letter-section" class="my-20 pt-10">
+            <div class="text-center mb-8">
+                <h2 class="font-cute text-3xl sm:text-4xl font-bold text-purple-800 flex items-center justify-center gap-2">
+                    <i class="fas fa-heart text-pink-500"></i> A Special Letter For You
+                </h2>
+                <p class="text-purple-600 text-sm sm:text-base mt-1">Tap the envelope to open your birthday surprise!</p>
+            </div>
+
+            <div class="flex justify-center">
+                <div class="envelope-wrapper my-8">
+                    <!-- Envelope Container -->
+                    <div id="envelope" class="envelope w-[340px] h-[220px] sm:w-[500px] sm:h-[300px]" onclick="toggleEnvelope()">
+                        <div class="envelope-flap"></div>
+                        
+                        <!-- Wax Seal Icon -->
+                        <div id="wax-seal" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-14 h-14 bg-gradient-to-tr from-pink-600 to-purple-600 rounded-full shadow-lg flex items-center justify-center text-white text-xl border-2 border-pink-200 transition-all duration-300">
+                            <i class="fas fa-heart"></i>
+                        </div>
+
+                        <!-- Letter Inside -->
+                        <div class="letter-content absolute bottom-2 left-3 right-3 sm:left-6 sm:right-6 bg-white/95 rounded-2xl p-6 sm:p-8 shadow-2xl border-2 border-pink-200 max-h-[420px] overflow-y-auto">
+                            <div class="text-right text-xs text-pink-400 font-bold uppercase tracking-wider mb-2">
+                                💌 Strictly For The Birthday Queen
+                            </div>
+                            
+                            <h3 class="font-handwriting text-3xl sm:text-4xl text-purple-700 font-bold mb-4">
+                                My Dearest Darling, ✨
+                            </h3>
+
+                            <div class="font-body text-gray-700 space-y-4 text-sm sm:text-base leading-relaxed">
+                                <p>
+                                    Happy, happy birthday to my Pookiey! 🥳🎉 On your special day, I just wanted to remind you how deeply loved, valued, and iconic you truly are.
+                                </p>
+                                <p>
+                                    I was just thinking back to our high school days and all th amazing memories we shared, and I couldn't let today pass without reaching out. You held such a special place in my life back then and honestly, you still do and forever will. Life can be really amazing sometimes. From me being a random new student at school to all the endless laughs we share everywhere we go — every single memory with you is a core memory I will cherish forever! 💕
+                                </p>
+                                <p>
+                                    Thank you for being the kindest, most radiant, gorgeous, and supportive person anyone could ever ask for. You make life so much brighter just by being in it!. I hope this year brings you all the happiness, success, and pure joy you deserve. Keep shining bright and being the incredible person you've always been  ✨
+                                </p>
+                                <p>
+                                    May this new age bring you boundless joy, endless blessings, flawless skin, successful shopping sprees, and all the happiness your beautiful heart can hold. Never stop shining!. I really appreciate you my darling 👑💖
+                                </p>
+                                <p class="font-handwriting text-2xl text-pink-600 font-bold pt-2">
+                                    Forever & always your muntuza: SIHLE CLOUDS,<br>
+                                    With all my love 💕✨
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-xs text-purple-400 mt-2 font-cute">(Tip: Scroll inside the letter to read the full note!)</p>
+        </section>
+
+        <!-- INTERACTIVE REASONS WHY YOU ARE SPECIAL -->
+        <section class="my-20">
+            <div class="text-center mb-10">
+                <span class="text-xs font-bold text-purple-600 uppercase tracking-widest bg-purple-100 px-3 py-1 rounded-full">Surprise Notes</span>
+                <h2 class="font-cute text-3xl sm:text-5xl font-bold text-purple-900 mt-2">
+                    Reasons Why You're Amazing 💌
+                </h2>
+                <p class="text-purple-600 mt-1 text-sm sm:text-base">Click on any card to reveal a secret compliment!</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                
+                <!-- Card 1 -->
+                <div class="reason-card bg-white/80 backdrop-blur-sm p-6 rounded-2xl border-2 border-pink-200 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer text-center group" onclick="revealReason(this)">
+                    <div class="w-12 h-12 bg-pink-100 text-pink-500 rounded-full flex items-center justify-center mx-auto text-xl mb-3 group-hover:scale-110 transition duration-300">
+                        ✨
+                    </div>
+                    <h3 class="font-cute font-bold text-purple-800 text-lg mb-1">Your Radiant Energy</h3>
+                    <p class="reason-text text-gray-500 text-sm font-medium">Click to open...</p>
+                    <p class="reason-content hidden text-pink-600 font-handwriting text-xl font-bold mt-2">
+                        "You light up every room you walk into with your bright smile and positive energy!"
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="reason-card bg-white/80 backdrop-blur-sm p-6 rounded-2xl border-2 border-pink-200 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer text-center group" onclick="revealReason(this)">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-500 rounded-full flex items-center justify-center mx-auto text-xl mb-3 group-hover:scale-110 transition duration-300">
+                        👗
+                    </div>
+                    <h3 class="font-cute font-bold text-purple-800 text-lg mb-1">Fashion & Style Icon</h3>
+                    <p class="reason-text text-gray-500 text-sm font-medium">Click to open...</p>
+                    <p class="reason-content hidden text-purple-600 font-handwriting text-xl font-bold mt-2">
+                        "You never fail to serve top-tier fits and look effortlessly stunning every single day!"
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="reason-card bg-white/80 backdrop-blur-sm p-6 rounded-2xl border-2 border-pink-200 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer text-center group" onclick="revealReason(this)">
+                    <div class="w-12 h-12 bg-pink-100 text-pink-500 rounded-full flex items-center justify-center mx-auto text-xl mb-3 group-hover:scale-110 transition duration-300">
+                        😂
+                    </div>
+                    <h3 class="font-cute font-bold text-purple-800 text-lg mb-1">Unmatched Humor</h3>
+                    <p class="reason-text text-gray-500 text-sm font-medium">Click to open...</p>
+                    <p class="reason-content hidden text-pink-600 font-handwriting text-xl font-bold mt-2">
+                        "Nobody makes me laugh as hard as you do! Our silly inside jokes are unmatched."
+                    </p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="reason-card bg-white/80 backdrop-blur-sm p-6 rounded-2xl border-2 border-pink-200 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer text-center group" onclick="revealReason(this)">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-500 rounded-full flex items-center justify-center mx-auto text-xl mb-3 group-hover:scale-110 transition duration-300">
+                        💖
+                    </div>
+                    <h3 class="font-cute font-bold text-purple-800 text-lg mb-1">Pure Heart</h3>
+                    <p class="reason-text text-gray-500 text-sm font-medium">Click to open...</p>
+                    <p class="reason-content hidden text-purple-600 font-handwriting text-xl font-bold mt-2">
+                        "You are genuinely one of the most thoughtful, loving, and supportive friends ever!"
+                    </p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="reason-card bg-white/80 backdrop-blur-sm p-6 rounded-2xl border-2 border-pink-200 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer text-center group" onclick="revealReason(this)">
+                    <div class="w-12 h-12 bg-pink-100 text-pink-500 rounded-full flex items-center justify-center mx-auto text-xl mb-3 group-hover:scale-110 transition duration-300">
+                        ✨
+                    </div>
+                    <h3 class="font-cute font-bold text-purple-800 text-lg mb-1">Unforgettable Memories</h3>
+                    <p class="reason-text text-gray-500 text-sm font-medium">Click to open...</p>
+                    <p class="reason-content hidden text-pink-600 font-handwriting text-xl font-bold mt-2">
+                        "Every single moment spent together turns into an amazing memory that I cherish forever!"
+                    </p>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="reason-card bg-white/80 backdrop-blur-sm p-6 rounded-2xl border-2 border-pink-200 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer text-center group" onclick="revealReason(this)">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-500 rounded-full flex items-center justify-center mx-auto text-xl mb-3 group-hover:scale-110 transition duration-300">
+                        👑
+                    </div>
+                    <h3 class="font-cute font-bold text-purple-800 text-lg mb-1">Engelic and Pure Heart</h3>
+                    <p class="reason-text text-gray-500 text-sm font-medium">Click to open...</p>
+                    <p class="reason-content hidden text-purple-600 font-handwriting text-xl font-bold mt-2">
+                        "Through everything, I know you've always done things with a good heart!"
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- BIRTHDAY WISH INTERACTIVE BOARD -->
+        <section class="my-20 bg-gradient-to-r from-pink-200/60 via-purple-200/60 to-pink-200/60 rounded-3xl p-8 sm:p-12 border-2 border-white shadow-xl text-center relative overflow-hidden">
+            <div class="absolute -top-10 -left-10 w-32 h-32 bg-pink-300 rounded-full blur-2xl opacity-50"></div>
+            <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-purple-300 rounded-full blur-2xl opacity-50"></div>
+
+            <h2 class="font-cute text-3xl sm:text-4xl font-bold text-purple-900 mb-3 relative z-10">
+                Make A Birthday Wish! 🎂✨
+            </h2>
+            <p class="text-purple-700 text-sm sm:text-base max-w-md mx-auto mb-6 relative z-10">
+                Blow out the virtual candle by tapping the cake below!
+            </p>
+
+            <div class="inline-block cursor-pointer transform hover:scale-110 transition duration-300 relative z-10" onclick="blowCandle()">
+                <div id="candleFlame" class="w-5 h-8 bg-gradient-to-t from-yellow-500 via-orange-400 to-yellow-200 rounded-full mx-auto animate-pulse shadow-[0_0_15px_#facc15]"></div>
+                <div class="w-2 h-4 bg-gray-600 mx-auto"></div>
+                <div class="text-7xl sm:text-8xl select-none">🎂</div>
+            </div>
+
+            <p id="wishText" class="font-handwriting text-2xl sm:text-3xl text-pink-700 font-bold mt-4 h-8 relative z-10">
+                (Tap the cake to blow out the flame!)
+            </p>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center py-10 border-t border-pink-200/60">
+            <p class="font-cute text-purple-800 text-lg">
+                Made with tons of love for the coolest friend ever 💕✨
+            </p>
+            <p class="text-xs text-purple-400 mt-1">Happy Birthday! My Darling 💖</p>
+        </footer>
+
+    </div>
+
+    <!-- JAVASCRIPT CODE -->
+    <script>
+        // Floating Heart Particles Generator
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartIcons = ['💖', '🌸', '✨', '💜', '🎀', '👑'];
+            
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                container.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        // Music Player Toggle
+        const musicBtn = document.getElementById('musicToggle');
+        const bgMusic = document.getElementById('bgMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    musicText.innerText = "Music On 🎵";
+                    musicIcon.classList.add('animate-spin');
+                }).catch(err => {
+                    console.log("Audio play blocked", err);
+                });
+            } else {
+                bgMusic.pause();
+                isPlaying = false;
+                musicText.innerText = "Play Music ✨";
+                musicIcon.classList.remove('animate-spin');
+            }
+        });
+
+        // Toggle Interactive Envelope
+        function toggleEnvelope() {
+            const envelope = document.getElementById('envelope');
+            envelope.classList.toggle('open');
+            triggerConfetti();
+        }
+
+        // Confetti Trigger Function
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#ff69b4', '#8a2be2', '#ffd1dc', '#d8bfd8', '#ffffff']
+                });
+            }
+        }
+
+        // Reveal Reason Card Compliments
+        function revealReason(cardElement) {
+            const reasonText = cardElement.querySelector('.reason-text');
+            const reasonContent = cardElement.querySelector('.reason-content');
+
+            if (reasonContent.classList.contains('hidden')) {
+                reasonText.classList.add('hidden');
+                reasonContent.classList.remove('hidden');
+                cardElement.classList.add('border-pink-400', 'bg-pink-50/80');
+                triggerConfetti();
+            }
+        }
+
+        // Blow Candle Interactive Function
+        let candleBlown = false;
+        function blowCandle() {
+            const flame = document.getElementById('candleFlame');
+            const wishText = document.getElementById('wishText');
+
+            if (!candleBlown) {
+                flame.style.display = 'none';
+                wishText.innerText = "🎉 Wish Granted! May all your dreams come true! ✨";
+                candleBlown = true;
+                
+                // Huge Celebration Confetti
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { y: 0.5 },
+                    colors: ['#ff69b4', '#8a2be2', '#ffb6c1', '#ffffff']
+                });
+            }
+        }
+    </script>
+</body>
+</html>
